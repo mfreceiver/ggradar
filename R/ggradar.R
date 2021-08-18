@@ -31,6 +31,8 @@
 #' @param group.line.width line width of group
 #' @param group.point.size point size of group
 #' @param group.colours colour of group
+#' @param group.line.transparency transparency of group line
+#' @param group.point.transparency transparency of group point
 #' @param background.circle.colour colour of background circle/radar
 #' @param background.circle.transparency transparency of background circle/radar
 #' @param plot.legend whether to include a plot legend
@@ -95,6 +97,8 @@ ggradar <- function(plot.data,
                     group.line.width = 1.5,
                     group.point.size = 6,
                     group.colours = NULL,
+                    group.line.transparency = 0.2,
+                    group.point.transparency = 0.2,
                     background.circle.colour = "#D7D6D1",
                     background.circle.transparency = 0.2,
                     plot.legend = if (nrow(plot.data) > 1) TRUE else FALSE,
@@ -266,11 +270,12 @@ ggradar <- function(plot.data,
   # ... + group (cluster) 'paths'
   base <- base + geom_path(
     data = group$path, aes(x = x, y = y, group = group, colour = group),
-    size = group.line.width
+    size = group.line.width,
+    alpha = group.line.transparency
   )
 
   # ... + group points (cluster data)
-  base <- base + geom_point(data = group$path, aes(x = x, y = y, group = group, colour = group), size = group.point.size)
+  base <- base + geom_point(data = group$path, aes(x = x, y = y, group = group, colour = group), size = group.point.size, alpha = group.point.transparency)
 
   # ... + amend Legend title
   if (plot.legend == TRUE) base <- base + labs(colour = legend.title, size = legend.text.size)
